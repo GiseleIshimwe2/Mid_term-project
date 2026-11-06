@@ -63,6 +63,60 @@ quant_vars %>%
 
 
 ```
+### Counting outliers in each variable
+```{r count-outliers}
+quant_vars %>%
+  summarise(across(everything(), ~ length(boxplot.stats(.x)$out)))
+
+
+```
+## Handling missing values and outliers
+```{r handle-na-outliers}
+## missing values: replace with the column median (only matters if the check above shows any)
+world_pop_cleaned <- world_pop_cleaned %>%
+  mutate(across(where(is.numeric), ~ replace_na(.x, median(.x, na.rm = TRUE))))
+
+## function that caps values at the boxplot limits (winsorization)
+winsorize <- function(x) {
+  q <- quantile(x, c(0.25, 0.75), na.rm = TRUE)
+  fence <- 1.5 * (q[2] - q[1])
+  pmin(pmax(x, q[1] - fence), q[2] + fence)
+}
+
+## capped values go into NEW columns ending in _capped, originals stay unchanged
+world_pop_cleaned <- world_pop_cleaned %>%
+  mutate(across(c(`2022 Population`, starts_with("Area"), starts_with("Density"),
+                  `Growth Rate`, `World Population Percentage`),
+                winsorize, .names = "{.col}_capped"))
+```
+##  Population projection for 2030 using Nt = P * e^(r*t)
+```{r projection-2030}
+## Growth Rate is a multiplier (e.g. 1.01), so r = Growth Rate - 1
+## t = number of years from 2022 to 2030
+t_years <- 2030 - 2022
+
+world_pop_cleaned <- world_pop_cleaned %>%
+  mutate(r = `Growth Rate` - 1,
+         Pop2030 = round(`2022 Population` * exp(r * t_years)))
+
+## preview the result
+world_pop_cleaned %>%
+  select(`Country/Territory`, `2022 Population`, r, Pop2030) %>%
+  head(10)
+```
+##  Top ten countries by 2022 population
+```{r top10}
+top10 <- world_pop_cleaned %>% slice_max(`2022 Population`, n = 10)
+
+ggplot(top10, aes(x = reorder(`Country/Territory`, `2022 Population`),
+                  y = `2022 Population` / 1e6)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(title = "Top 10 most populous countries, 2022",
+       x = "Country", y = "Population (millions)") +
+  theme_minimal()
+
+```
 
 
 
