@@ -50,8 +50,20 @@ colSums(is.na(world_pop))
 ```
 ## Boxplots of the quantitative variables
 ```{r box plot}
+quant_vars <- world_pop_cleaned %>%
+  select(`2022 Population`, starts_with("Area"), starts_with("Density"),
+         `Growth Rate`, `World Population Percentage`)
+### long format so one boxplot is drawn per variable
+quant_vars %>%
+  pivot_longer(everything(), names_to = "variable", values_to = "value") %>%
+  ggplot(aes(x = "", y = value)) +
+  geom_boxplot(fill = "lightblue") +
+  facet_wrap(~ variable, scales = "free") +
+  labs(x = "", y = "", title = "Boxplots of quantitative variables")
+
 
 ```
+
 
 
 
