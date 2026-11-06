@@ -487,12 +487,19 @@ data type of the world population</h3>
 ##   ..   `Growth Rate` = col_double(),
 ##   ..   `World Population Percentage` = col_double()
 ##   .. )
-##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x000001e2485ff730&gt;</code></pre>
+##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x00000263453ff760&gt;</code></pre>
 <pre class="r"><code>nrow(world_pop)</code></pre>
 <pre><code>## [1] 234</code></pre>
 <pre class="r"><code>ncol(world_pop)</code></pre>
 <pre><code>## [1] 17</code></pre>
 </div>
+</div>
+<div id="checking-if-i-have-duplicates-and-drop-them-if-any" class="section level2">
+<h2>checking if I have duplicates and drop them if any</h2>
+<pre class="r"><code>sum(duplicated(world_pop))</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>world_pop_cleaned &lt;- world_pop %&gt;% distinct()
+View(world_pop_cleaned)</code></pre>
 </div>
 <div id="r-markdown" class="section level2">
 <h2>R Markdown</h2>

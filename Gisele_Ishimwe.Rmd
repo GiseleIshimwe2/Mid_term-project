@@ -26,7 +26,7 @@ CO2_emission <- read_csv("C:/Users/NISR/Documents/R project/Mid_term-project/CO2
 ```
 ### Summary on the world population
 ### top five rows and last 10 bottom rows of world population, shape and data type  of the world population 
-```{r head and tail}
+```{r head-tail-world-pop}
 dim(world_pop)
 names(world_pop)
 head(world_pop,5)
@@ -35,6 +35,13 @@ str(world_pop)
 nrow(world_pop)
 ncol(world_pop)
 ```
+## checking if I have duplicates and drop them if any
+```{r head and tail}
+sum(duplicated(world_pop))
+world_pop_cleaned <- world_pop %>% distinct()
+View(world_pop_cleaned)
+```
+
 
 
 
