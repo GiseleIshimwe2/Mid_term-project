@@ -41,6 +41,18 @@ sum(duplicated(world_pop))
 world_pop_cleaned <- world_pop %>% distinct()
 View(world_pop_cleaned)
 ```
+## checking the missing values&using box plot to see the outliers  
+
+```{r }
+colSums(is.na(world_pop))
+
+
+```
+## Boxplots of the quantitative variables
+```{r box plot}
+
+```
+
 
 
 
