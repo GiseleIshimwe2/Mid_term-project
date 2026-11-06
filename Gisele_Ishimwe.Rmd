@@ -117,29 +117,144 @@ ggplot(top10, aes(x = reorder(`Country/Territory`, `2022 Population`),
   theme_minimal()
 
 ```
+## Population trend 1990 to 2022 for the top ten
+```{r top10-trend}
+## the $ in the pattern keeps only the original year columns, not the _capped ones
+top10_trend <- top10 %>%
+  select(`Country/Territory`, matches("^\\d{4} Population$")) %>%
+  pivot_longer(-`Country/Territory`, names_to = "year", values_to = "population") %>%
+  mutate(year = parse_number(year))
 
+ggplot(top10_trend, aes(x = year, y = population / 1e6, colour = `Country/Territory`)) +
+  geom_line(linewidth = 1) +
+  geom_point() +
+  labs(title = "Population trend of the top 10 countries, 1990-2022",
+       x = "Year", y = "Population (millions)", colour = "Country") +
+  theme_minimal()
+```
+## The CO2 file has two columns for 2019, check if they are identical
+```{r check-co2-names}
+names(CO2_emission)
+all(CO2_emission$`2019...34` == CO2_emission$`2019...35`, na.rm = TRUE)
+```
+## If the result above is TRUE, keep one 2019 column and name it 2019
+```{r clean-co2}
+CO2_emission <- CO2_emission %>%
+  select(-`2019...35`) %>%
+  rename(`2019` = `2019...34`)
 
+```
+## CO2 emission trend 1990 to 2019 for the top ten countries
+```{r co2-trend}
+co2_top10 <- CO2_emission %>%
+  filter(country_code %in% top10$CCA3) %>%
+  pivot_longer(matches("^\\d{4}$"), names_to = "year", values_to = "co2") %>%
+  mutate(year = as.numeric(year))
 
+ggplot(co2_top10, aes(x = year, y = co2, colour = `Country Name`)) +
+  geom_line(linewidth = 1) +
+  labs(title = "CO2 emissions of the top 10 populous countries, 1990-2019",
+       x = "Year", y = "CO2 (metric tons per capita)", colour = "Country") +
+  theme_minimal()
+```
+##  Correlation: Area, Density, Growth Rate, World Population Percentage
+```{r correlation}
+cor_data <- world_pop_cleaned %>%
+  select(starts_with("Area"), starts_with("Density"),
+         `Growth Rate`, `World Population Percentage`) %>%
+  select(-ends_with("_capped"))
 
+## numerical correlation matrix
+cor_mat <- round(cor(cor_data, use = "complete.obs"), 2)
+cor_mat
 
+## heatmap of the same matrix
+cor_mat %>%
+  as.data.frame() %>%
+  rownames_to_column("var1") %>%
+  pivot_longer(-var1, names_to = "var2", values_to = "r") %>%
+  ggplot(aes(var1, var2, fill = r)) +
+  geom_tile(colour = "white") +
+  geom_text(aes(label = r)) +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red",
+                       midpoint = 0, limits = c(-1, 1)) +
+  labs(title = "Correlation heatmap", x = "", y = "") +
+  theme_minimal()
+```
+##  Merging population (2022) and CO2 (2019)
+```{r merge}
+## join on the 3-letter country code because country names differ between the files
+pop_small <- world_pop_cleaned %>%
+  select(CCA3, `Country/Territory`, Continent, `2022 Population`)
 
+co2_small <- CO2_emission %>%
+  select(CCA3 = country_code, CO2_2019 = `2019`)
 
-## R Markdown
+merged <- inner_join(pop_small, co2_small, by = "CCA3") %>%
+  filter(!is.na(CO2_2019)) %>%
+  mutate(Pop_millions = `2022 Population` / 1e6)
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+nrow(merged)
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+## Relationship between population and CO2 emissions
 
-```{r cars}
-summary(cars)
+```{r }
+
+## scatter plot with population on a log scale and a regression line
+
+ggplot(merged, aes(Pop_millions, CO2_2019)) +
+  geom_point(colour = "darkblue") +
+  scale_x_log10() +
+  geom_smooth(method = "lm", colour = "red") +
+  labs(title = "Population (log scale) vs CO2 per capita, 2019",
+       x = "Population in millions (log10)", y = "CO2 (metric tons per capita)") +
+  theme_minimal()
+
+## Pearson, Spearman and Pearson with logged population
+
+cor(merged$Pop_millions, merged$CO2_2019)
+cor(merged$Pop_millions, merged$CO2_2019, method = "spearman")
+cor(log10(merged$Pop_millions), merged$CO2_2019)
+
+## simple linear regression
+
+summary(lm(CO2_2019 ~ log10(Pop_millions), data = merged))
+
+```
+## Comparing CO2 emissions by continent
+
+```{r continent}
+
+## sum of 2019 CO2 by continent, highest first
+
+continent_co2 <- merged %>%
+  group_by(Continent) %>%
+  summarise(total_co2 = sum(CO2_2019)) %>%
+  arrange(desc(total_co2))
+continent_co2
+
+ggplot(continent_co2, aes(reorder(Continent, total_co2), total_co2)) +
+  geom_col(fill = "darkgreen") +
+  coord_flip() +
+  labs(title = "Total 2019 CO2 emissions by continent",
+       x = "Continent", y = "Sum of CO2 (metric tons per capita)") +
+  theme_minimal()
+
+## answers to the three questions
+
+slice(continent_co2, 1)            ## highest continent
+slice(continent_co2, 3)            ## third continent and its total
+slice_tail(continent_co2, n = 1)   ## last continent and its total
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+
+
+
+
+
