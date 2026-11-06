@@ -13,7 +13,7 @@
 
 <meta name="date" content="2026-11-06" />
 
-<title>Gisele_Iahimwe</title>
+<title>Gisele_Ishimwe</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,7 +350,7 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Gisele_Iahimwe</h1>
+<h1 class="title toc-ignore">Gisele_Ishimwe</h1>
 <h4 class="author">Gisele</h4>
 <h4 class="date">2026-11-06</h4>
 
@@ -374,6 +374,29 @@ library(tidyverse)</code></pre>
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div id="loading-world-population-and-c02-emission" class="section level2">
+<h2>Loading world population and C02 Emission</h2>
+<pre class="r"><code>world_pop &lt;- read_csv(&quot;C:/Users/NISR/Documents/R project/Mid_term-project/world_population.csv&quot;)</code></pre>
+<pre><code>## Rows: 234 Columns: 17
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (4): CCA3, Country/Territory, Capital, Continent
+## dbl (13): Rank, 2022 Population, 2020 Population, 2015 Population, 2010 Popu...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>CO2_emission &lt;- read_csv(&quot;C:/Users/NISR/Documents/R project/Mid_term-project/CO2_emission.csv&quot;)</code></pre>
+<pre><code>## New names:
+## Rows: 215 Columns: 35
+## ── Column specification
+## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
+## (4): Country Name, country_code, Region, Indicator Name dbl (31): 1990, 1991,
+## 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, ...
+## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+## Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## • `2019` -&gt; `2019...34`
+## • `2019` -&gt; `2019...35`</code></pre>
 </div>
 <div id="r-markdown" class="section level2">
 <h2>R Markdown</h2>
