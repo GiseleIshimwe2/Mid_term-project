@@ -397,6 +397,102 @@ library(tidyverse)</code></pre>
 ## Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ## • `2019` -&gt; `2019...34`
 ## • `2019` -&gt; `2019...35`</code></pre>
+<div id="summary-on-the-world-population" class="section level3">
+<h3>Summary on the world population</h3>
+</div>
+<div id="top-five-rows-and-last-10-bottom-rows-of-world-population-shape-and-data-type-of-the-world-population" class="section level3">
+<h3>top five rows and last 10 bottom rows of world population, shape and
+data type of the world population</h3>
+<pre class="r"><code>dim(world_pop)</code></pre>
+<pre><code>## [1] 234  17</code></pre>
+<pre class="r"><code>names(world_pop)</code></pre>
+<pre><code>##  [1] &quot;Rank&quot;                        &quot;CCA3&quot;                       
+##  [3] &quot;Country/Territory&quot;           &quot;Capital&quot;                    
+##  [5] &quot;Continent&quot;                   &quot;2022 Population&quot;            
+##  [7] &quot;2020 Population&quot;             &quot;2015 Population&quot;            
+##  [9] &quot;2010 Population&quot;             &quot;2000 Population&quot;            
+## [11] &quot;1990 Population&quot;             &quot;1980 Population&quot;            
+## [13] &quot;1970 Population&quot;             &quot;Area (km²)&quot;                 
+## [15] &quot;Density (per km²)&quot;           &quot;Growth Rate&quot;                
+## [17] &quot;World Population Percentage&quot;</code></pre>
+<pre class="r"><code>head(world_pop,5)</code></pre>
+<pre><code>## # A tibble: 5 × 17
+##    Rank CCA3  `Country/Territory` Capital          Continent `2022 Population`
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;               &lt;chr&gt;            &lt;chr&gt;                 &lt;dbl&gt;
+## 1    36 AFG   Afghanistan         Kabul            Asia               41128771
+## 2   138 ALB   Albania             Tirana           Europe              2842321
+## 3    34 DZA   Algeria             Algiers          Africa             44903225
+## 4   213 ASM   American Samoa      Pago Pago        Oceania               44273
+## 5   203 AND   Andorra             Andorra la Vella Europe                79824
+## # ℹ 11 more variables: `2020 Population` &lt;dbl&gt;, `2015 Population` &lt;dbl&gt;,
+## #   `2010 Population` &lt;dbl&gt;, `2000 Population` &lt;dbl&gt;, `1990 Population` &lt;dbl&gt;,
+## #   `1980 Population` &lt;dbl&gt;, `1970 Population` &lt;dbl&gt;, `Area (km²)` &lt;dbl&gt;,
+## #   `Density (per km²)` &lt;dbl&gt;, `Growth Rate` &lt;dbl&gt;,
+## #   `World Population Percentage` &lt;dbl&gt;</code></pre>
+<pre class="r"><code>tail(world_pop,10)</code></pre>
+<pre><code>## # A tibble: 10 × 17
+##     Rank CCA3  `Country/Territory` Capital      Continent     `2022 Population`
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;               &lt;chr&gt;        &lt;chr&gt;                     &lt;dbl&gt;
+##  1    43 UZB   Uzbekistan          Tashkent     Asia                   34627652
+##  2   181 VUT   Vanuatu             Port-Vila    Oceania                  326740
+##  3   234 VAT   Vatican City        Vatican City Europe                      510
+##  4    51 VEN   Venezuela           Caracas      South America          28301696
+##  5    16 VNM   Vietnam             Hanoi        Asia                   98186856
+##  6   226 WLF   Wallis and Futuna   Mata-Utu     Oceania                   11572
+##  7   172 ESH   Western Sahara      El Aaiún     Africa                   575986
+##  8    46 YEM   Yemen               Sanaa        Asia                   33696614
+##  9    63 ZMB   Zambia              Lusaka       Africa                 20017675
+## 10    74 ZWE   Zimbabwe            Harare       Africa                 16320537
+## # ℹ 11 more variables: `2020 Population` &lt;dbl&gt;, `2015 Population` &lt;dbl&gt;,
+## #   `2010 Population` &lt;dbl&gt;, `2000 Population` &lt;dbl&gt;, `1990 Population` &lt;dbl&gt;,
+## #   `1980 Population` &lt;dbl&gt;, `1970 Population` &lt;dbl&gt;, `Area (km²)` &lt;dbl&gt;,
+## #   `Density (per km²)` &lt;dbl&gt;, `Growth Rate` &lt;dbl&gt;,
+## #   `World Population Percentage` &lt;dbl&gt;</code></pre>
+<pre class="r"><code>str(world_pop)</code></pre>
+<pre><code>## spc_tbl_ [234 × 17] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ Rank                       : num [1:234] 36 138 34 213 203 42 224 201 33 140 ...
+##  $ CCA3                       : chr [1:234] &quot;AFG&quot; &quot;ALB&quot; &quot;DZA&quot; &quot;ASM&quot; ...
+##  $ Country/Territory          : chr [1:234] &quot;Afghanistan&quot; &quot;Albania&quot; &quot;Algeria&quot; &quot;American Samoa&quot; ...
+##  $ Capital                    : chr [1:234] &quot;Kabul&quot; &quot;Tirana&quot; &quot;Algiers&quot; &quot;Pago Pago&quot; ...
+##  $ Continent                  : chr [1:234] &quot;Asia&quot; &quot;Europe&quot; &quot;Africa&quot; &quot;Oceania&quot; ...
+##  $ 2022 Population            : num [1:234] 41128771 2842321 44903225 44273 79824 ...
+##  $ 2020 Population            : num [1:234] 38972230 2866849 43451666 46189 77700 ...
+##  $ 2015 Population            : num [1:234] 33753499 2882481 39543154 51368 71746 ...
+##  $ 2010 Population            : num [1:234] 28189672 2913399 35856344 54849 71519 ...
+##  $ 2000 Population            : num [1:234] 19542982 3182021 30774621 58230 66097 ...
+##  $ 1990 Population            : num [1:234] 10694796 3295066 25518074 47818 53569 ...
+##  $ 1980 Population            : num [1:234] 12486631 2941651 18739378 32886 35611 ...
+##  $ 1970 Population            : num [1:234] 10752971 2324731 13795915 27075 19860 ...
+##  $ Area (km²)                 : num [1:234] 652230 28748 2381741 199 468 ...
+##  $ Density (per km²)          : num [1:234] 63.1 98.9 18.9 222.5 170.6 ...
+##  $ Growth Rate                : num [1:234] 1.026 0.996 1.016 0.983 1.01 ...
+##  $ World Population Percentage: num [1:234] 0.52 0.04 0.56 0 0 0.45 0 0 0.57 0.03 ...
+##  - attr(*, &quot;spec&quot;)=
+##   .. cols(
+##   ..   Rank = col_double(),
+##   ..   CCA3 = col_character(),
+##   ..   `Country/Territory` = col_character(),
+##   ..   Capital = col_character(),
+##   ..   Continent = col_character(),
+##   ..   `2022 Population` = col_double(),
+##   ..   `2020 Population` = col_double(),
+##   ..   `2015 Population` = col_double(),
+##   ..   `2010 Population` = col_double(),
+##   ..   `2000 Population` = col_double(),
+##   ..   `1990 Population` = col_double(),
+##   ..   `1980 Population` = col_double(),
+##   ..   `1970 Population` = col_double(),
+##   ..   `Area (km²)` = col_double(),
+##   ..   `Density (per km²)` = col_double(),
+##   ..   `Growth Rate` = col_double(),
+##   ..   `World Population Percentage` = col_double()
+##   .. )
+##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x000001e2485ff730&gt;</code></pre>
+<pre class="r"><code>nrow(world_pop)</code></pre>
+<pre><code>## [1] 234</code></pre>
+<pre class="r"><code>ncol(world_pop)</code></pre>
+<pre><code>## [1] 17</code></pre>
+</div>
 </div>
 <div id="r-markdown" class="section level2">
 <h2>R Markdown</h2>

@@ -24,6 +24,18 @@ world_pop <- read_csv("C:/Users/NISR/Documents/R project/Mid_term-project/world_
 CO2_emission <- read_csv("C:/Users/NISR/Documents/R project/Mid_term-project/CO2_emission.csv")
 
 ```
+### Summary on the world population
+### top five rows and last 10 bottom rows of world population, shape and data type  of the world population 
+```{r head and tail}
+dim(world_pop)
+names(world_pop)
+head(world_pop,5)
+tail(world_pop,10)
+str(world_pop)
+nrow(world_pop)
+ncol(world_pop)
+```
+
 
 
 
