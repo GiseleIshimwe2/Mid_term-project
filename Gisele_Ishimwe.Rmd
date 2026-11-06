@@ -4,9 +4,16 @@ author: "Gisele"
 date: "2026-11-06"
 output: html_document
 ---
+## Mid term exam
+##installing packages 
+```{r inst, eval=FALSE}
+install.packages("readxl")
+install.packages("tidyverse")
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```
+```{r library}
+library(readxl)
+library(tidyverse)
 ```
 
 ## R Markdown
