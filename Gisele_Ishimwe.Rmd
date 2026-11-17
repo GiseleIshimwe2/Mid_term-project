@@ -2,7 +2,9 @@
 title: "Gisele_Ishimwe"
 author: "Gisele"
 date: "2026-11-06"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 ## Mid term exam
 ##installing packages 
@@ -240,7 +242,7 @@ ggplot(continent_co2, aes(reorder(Continent, total_co2), total_co2)) +
        x = "Continent", y = "Sum of CO2 (metric tons per capita)") +
   theme_minimal()
 
-## answers to the three questions
+## answers 
 
 slice(continent_co2, 1)            ## highest continent
 slice(continent_co2, 3)            ## third continent and its total
